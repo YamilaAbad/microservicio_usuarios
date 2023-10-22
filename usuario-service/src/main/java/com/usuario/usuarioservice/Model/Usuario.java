@@ -25,13 +25,18 @@ public class Usuario {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "idUsuario")
     private int id;
-
+    @Column(nullable = false)
     private String nombre;
+    @Column(nullable = false)
     private String apellido;
+    @Column(nullable = false)
     private String rol;
+    @Column(nullable = false)
     private boolean estado;
+    @Column(nullable = false)
     private int num_de_celular;
+    @Column(nullable = false)
     private String email;
     @ManyToMany(mappedBy="usuario", fetch = FetchType.LAZY)
-    private List<Cuenta> cuentas_asociadas;
+    private List<CuentasDeUsuario> cuentas_asociadas;
 }

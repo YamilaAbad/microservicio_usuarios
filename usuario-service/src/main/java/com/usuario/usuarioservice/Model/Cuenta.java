@@ -24,14 +24,18 @@ public class Cuenta {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "idCuenta")
     private int id;
-
+    @Column(nullable = false)
     private String user;
+    @Column(nullable = false)
     private String pass;
+    @Column(nullable = false)
     private Timestamp fecha_de_creacion;
+    @Column(nullable = false)
     private float saldo;
-    private float historial_de_gasto;
+    private float total_de_gasto;
+    @Column(nullable = false)
     private boolean estado;
     private String motivo_de_suspencion;
     @ManyToMany(mappedBy="cuenta", fetch = FetchType.LAZY)
-    private List<Usuario> usuarios_asociados;
+    private List<CuentasDeUsuario> usuarios_asociados;
 }
