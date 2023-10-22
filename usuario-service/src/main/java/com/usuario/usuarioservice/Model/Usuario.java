@@ -37,6 +37,6 @@ public class Usuario {
     private int num_de_celular;
     @Column(nullable = false)
     private String email;
-    @ManyToMany(mappedBy="usuario", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "usuario")
     private List<CuentasDeUsuario> cuentas_asociadas;
 }

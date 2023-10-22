@@ -16,14 +16,14 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
     //retorna todos los usuarios
-    @GetMapping
+    @GetMapping("/usuarios")
     @ResponseStatus(HttpStatus.OK)
     public List<Usuario> getAllUsuarios(){
        return usuarioRepository.findAll();
     }
 
     //retorna un usuario por id
-    @GetMapping("/{id}")
+    @GetMapping("/usuario/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Usuario getUsuario(@PathVariable int id){
         return usuarioRepository.findById(id).orElse(null);

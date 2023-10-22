@@ -36,6 +36,6 @@ public class Cuenta {
     @Column(nullable = false)
     private boolean estado;
     private String motivo_de_suspencion;
-    @ManyToMany(mappedBy="cuenta", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "cuentas")
     private List<CuentasDeUsuario> usuarios_asociados;
 }

@@ -17,14 +17,14 @@ public class CuentaController {
     private CuentaRepository cuentaRepository;
 
     //retorna todas las cuentas
-    @GetMapping
+    @GetMapping("/cuentas")
     @ResponseStatus(HttpStatus.OK)
     public List<Cuenta> getAllCuentas(){
         return cuentaRepository.findAll();
     }
 
     //retorna una cuenta por id
-    @GetMapping("/{id}")
+    @GetMapping("/cuenta/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Cuenta getCuenta(@PathVariable int id){
         return cuentaRepository.findById(id).orElse(null);

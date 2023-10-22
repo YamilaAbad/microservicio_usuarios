@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -15,14 +17,20 @@ public class CuentasDeUsuario {
     @Column(name="idCuentasDeUsuario")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "Usuario_idUsuario")
-    private Usuario usuario;
+    @ManyToMany
+    @JoinTable(
+            name = "CuentasDeUsuario_Cuenta",
+            joinColumns = @JoinColumn(name = "CuentasDeUsuario_idCuentasDeUsuario"),
+            inverseJoinColumns = @JoinColumn(name = "Usuario_idUsuario")
+    )
+    private List<Usuario> usuario;
 
     @ManyToMany
-    @JoinColumn(name = "Cuenta_idCuenta")
-    private Cuenta cuenta;
-
-
+    @JoinTable(
+            name = "CuentasDeUsuario_Cuenta",
+            joinColumns = @JoinColumn(name = "CuentasDeUsuario_idCuentasDeUsuario"),
+            inverseJoinColumns = @JoinColumn(name = "Cuenta_idCuenta")
+    )
+    private List<Cuenta> cuentas;
 
 }

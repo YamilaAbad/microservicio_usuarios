@@ -15,13 +15,13 @@ public class CuentasDeUsuarioController {
     @Autowired
     private CuentasDeUsuarioRepository cuentasDeUsuarioRepository;
     //retorna todas las cuentas de usuarios
-    @GetMapping
+    @GetMapping("/cuentasDeUsuario")
     @ResponseStatus(HttpStatus.OK)
     public List<CuentasDeUsuario> getAllCuentasDeUsuario(){
         return cuentasDeUsuarioRepository.findAll();
     }
     //retorna una cuenta de usuario por id
-    @GetMapping("/{id}")
+    @GetMapping("/cuentasDeUsuario/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CuentasDeUsuario getCuentasDeUsuario(@PathVariable int id){
         return cuentasDeUsuarioRepository.findById(id).orElse(null);
