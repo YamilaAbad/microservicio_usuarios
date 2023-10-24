@@ -1,6 +1,5 @@
 package com.usuario.usuarioservice.Controller;
 
-import com.usuario.usuarioservice.Model.Cuenta;
 import com.usuario.usuarioservice.Model.Usuario;
 import com.usuario.usuarioservice.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,21 +14,32 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-    //retorna todos los usuarios
+
+    /**
+     * retorna todos los usuarios
+     * @return lista de usuarios
+     */
     @GetMapping("/usuarios")
     @ResponseStatus(HttpStatus.OK)
     public List<Usuario> getAllUsuarios(){
        return usuarioRepository.findAll();
     }
 
-    //retorna un usuario por id
+    /**
+     * retorna un usuario por id
+     * @param id
+     * @return usuario correspondiente al id o null si no se encuentra
+     */
     @GetMapping("/usuario/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Usuario getUsuario(@PathVariable int id){
         return usuarioRepository.findById(id).orElse(null);
     }
 
-    //creo un usuario, no se puede crear un usuario con un correo electronico ya registrado en la BD.
+    /**
+     * creo un usuario, no se puede crear un usuario con un correo electronico ya registrado en la BD.
+     * @param usuario
+     */
     @PostMapping("/crearUsuario")
     @ResponseStatus(HttpStatus.OK)
     public void crearUsuario(@RequestBody Usuario usuario){
@@ -39,7 +49,12 @@ public class UsuarioController {
             throw new RuntimeException("El correo electrónico ya está registrado.");
         }
     }
-    //actualizar num telefono
+
+    /**
+     * actualizar num telefono
+     * @param id
+     * @param num
+     */
     @PutMapping("/actualizarNum/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void actualizarNum(@PathVariable int id, @RequestBody int num){
@@ -50,7 +65,11 @@ public class UsuarioController {
         }
     }
 
-    //actualizar email
+    /**
+     * actualizar email
+     * @param id
+     * @param email
+     */
     @PutMapping("/actualizarEmail/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void actualizarEmail(@PathVariable int id, @RequestBody String email){
@@ -61,7 +80,10 @@ public class UsuarioController {
         }
     }
 
-    //borra un usuario.
+    /**
+     * borra un usuario
+     * @param id
+     */
     @DeleteMapping("/eliminarUsuario/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void eliminarUsuario(@PathVariable int id){
