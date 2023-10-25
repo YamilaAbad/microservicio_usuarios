@@ -1,11 +1,13 @@
 package com.usuario.usuarioservice.Service;
 
-import com.usuario.usuarioservice.Model.Cuenta;
-import com.usuario.usuarioservice.Model.Usuario;
+
+import com.usuario.usuarioservice.DTO.CuentaDTO;
 import com.usuario.usuarioservice.Repository.CuentaRepository;
 import com.usuario.usuarioservice.Repository.CuentasDeUsuarioRepository;
 import com.usuario.usuarioservice.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 
 public class UsuarioService {
@@ -22,16 +24,14 @@ public class UsuarioService {
         this.cuentasDeUsuarioRepository = cuentasDeUsuarioRepository;
     }
 
-    public Cuenta enlazarCuenta(Usuario usuario, String user, String pass) throws Exception {
-        try {
-            Cuenta cuenta = cuentaRepository.buscarCuenta(user,pass);
-            if(cuenta!=null){
-                cuentasDeUsuarioRepository.enlazarCuenta(usuario,user,pass);
-                return cuenta;
-            }else
-                return null;
-            } catch (Exception e) {
-                throw new Exception("La cuenta no pudo ser encontrada.");
-            }
+    /**
+     * Solo se mostrará la lista de cuentas asociadas al usuario con id pasado por parámetro.
+     * de la cuenta solo se mostrará el atributo user.
+     * @param id
+     * @return
+     */
+    public List<CuentaDTO> cuentasDelUsuario (int id){
+        return cuentasDeUsuarioRepository.cuentasDelUsuarioID(id);
     }
+
 }

@@ -1,7 +1,9 @@
 package com.usuario.usuarioservice.Controller;
 
 import com.usuario.usuarioservice.Model.Cuenta;
+import com.usuario.usuarioservice.Model.Usuario;
 import com.usuario.usuarioservice.Repository.CuentaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -47,24 +49,10 @@ public class CuentaController {
         }
     }
 
-    /**
-     * anular cuenta
-     * @param cuenta
-     */
-    @PostMapping("/anularCuenta")
+    @PutMapping("/cargarSaldo/{s}")
     @ResponseStatus(HttpStatus.OK)
-    public void anularCuenta(@RequestBody Cuenta cuenta){
-        cuentaRepository.anularCuenta(cuenta.getId());
+    public void cargarSaldo(@RequestBody Cuenta cuenta, @PathVariable float s){
+        cuentaRepository.cargarSaldo(cuenta.getId(), s);
     }
 
-    /**
-     * suspender cuenta
-     * @param cuenta
-     * @param motivo
-     */
-    @PostMapping("/suspenderCuenta")
-    @ResponseStatus(HttpStatus.OK)
-    public void suspenderCuenta(@RequestBody Cuenta cuenta, @PathVariable String motivo){
-        cuentaRepository.modificarCuenta(cuenta.getId(), motivo);
-    }
 }

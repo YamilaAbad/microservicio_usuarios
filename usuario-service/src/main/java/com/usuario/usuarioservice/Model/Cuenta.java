@@ -1,6 +1,7 @@
 package com.usuario.usuarioservice.Model;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,6 +37,7 @@ public class Cuenta {
     @Column(nullable = false)
     private boolean estado;
     private String motivo_de_suspencion;
+    @Getter(AccessLevel.NONE)
     @OneToMany(mappedBy = "cuenta", fetch = FetchType.LAZY)
     private List<CuentasDeUsuario> usuarios_asociados;
 

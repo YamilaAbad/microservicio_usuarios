@@ -18,4 +18,9 @@ public class CuentaDTO {
     private float total_de_gasto;
     private boolean estado;
     private String motivo_de_suspencion;
+
+    public CuentaDTO(String user) {
+        this.user = user;
+    }
+
 }

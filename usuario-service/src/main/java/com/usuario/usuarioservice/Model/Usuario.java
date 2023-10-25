@@ -2,6 +2,7 @@ package com.usuario.usuarioservice.Model;
 
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -37,6 +38,8 @@ public class Usuario {
     private int num_de_celular;
     @Column(nullable = false)
     private String email;
+    @Getter(AccessLevel.NONE)
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<CuentasDeUsuario> cuentas_asociados;
+
 }

@@ -21,7 +21,7 @@ public class UsuarioController {
      */
     @GetMapping("/usuarios")
     @ResponseStatus(HttpStatus.OK)
-    public List<Usuario> getAllUsuarios(){
+    public Iterable<Usuario> getAllUsuarios(){
        return usuarioRepository.findAll();
     }
 
@@ -89,5 +89,7 @@ public class UsuarioController {
     public void eliminarUsuario(@PathVariable int id){
         usuarioRepository.delete(usuarioRepository.findById(id).orElse(null));
     }
+
+
 }
 
