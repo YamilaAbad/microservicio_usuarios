@@ -1,9 +1,7 @@
 package com.usuario.usuarioservice.Controller;
 
 import com.usuario.usuarioservice.Model.Cuenta;
-import com.usuario.usuarioservice.Model.Usuario;
 import com.usuario.usuarioservice.Repository.CuentaRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

@@ -2,17 +2,10 @@ package com.usuario.usuarioservice.Service;
 
 import com.usuario.usuarioservice.DTO.MonopatinDTO;
 import com.usuario.usuarioservice.DTO.ParadaDTO;
-import com.usuario.usuarioservice.Model.Cuenta;
-import com.usuario.usuarioservice.Model.Usuario;
-import com.usuario.usuarioservice.Repository.CuentaRepository;
-import com.usuario.usuarioservice.Repository.UsuarioRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestTemplate;
 
 @Service
