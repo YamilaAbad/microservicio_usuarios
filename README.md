@@ -1,25 +1,45 @@
-# microservicio_usuario 🛴
-_Este microservicio es responsable de gestionar la información relacionada con los viajes realizados por los usuarios en nuestros monopatines eléctricos. Permite registrar el inicio y finalización de un viaje, así como el seguimiento de kilómetros recorridos durante el trayecto. Además, gestiona las pausas de viaje, si el usuario decide detenerse durante el recorrido. Este servicio garantiza un seguimiento preciso del uso de los monopatines y permite el cálculo de tarifas en función del tiempo de uso y la distancia recorrida._
+# microservicio_usuario 🛴👤
 
-## Funcionalidades Principales:
+_Este microservicio se encarga de la gestion de las funcionalidades relacionadas con usuarios dentro de un sistema más amplio. Estas funcionalidades son: la gestión de usuarios, cuentas, la vinculación de usuarios con cuentas y proporcionar ciertas funciones administrativas._
 
-1. Registro de inicio de viaje.
-2. Registro de finalización de viaje.
-3. Registro de pausas de viaje.
-4. Cálculo de kilómetros recorridos durante el viaje.
-5. Seguimiento del tiempo de uso del monopatín.
-6. Control de la tarifa basada en el tiempo y la distancia. <br>
-   Este microservicio es fundamental para garantizar la facturación precisa y la disponibilidad de datos para la generación de informes de uso. Además, contribuye a la experiencia del usuario al permitir un control completo sobre sus viajes en monopatín.
+# Propósito
+Este microservicio consta de varios controladores, modelos, repositorios y servicios para manejar diferentes operaciones relacionadas con usuarios, cuentas y sus asociaciones. Las principales funcionalidades incluyen:
 
-## Tecnologías Utilizadas:
+### Gestión de Usuarios 👤
 
-* Lenguaje de programación: Spring-boot <br><br>
+Maneja operaciones relacionadas con usuarios.
+Permite recuperar, crear, actualizar y eliminar información de usuario.
+Proporciona endpoints para administrar detalles del usuario como nombre, correo electrónico y número de contacto.
+
+### Gestión de Cuentas 💻
+
+Administra operaciones relacionadas con cuentas.
+Permite la recuperación, creación y manipulación de información de cuentas.
+Facilita acciones como cargar saldo en la cuenta y eliminar cuentas.
+
+### Asociación Usuario-Cuenta 🔗
+
+Vincula usuarios con sus cuentas respectivas.
+Proporciona endpoints para asociar un usuario con una cuenta existente y obtener cuentas asociadas a un usuario. 
+
+### Operaciones de Administrador ✔
+
+Contiene endpoints para tareas administrativas que requieren privilegios de administrador.
+Permite a un administrador realizar acciones como eliminar cuentas, suspender cuentas, agregar nuevos "Monopatines" y gestionarlos.
+
+### Puntos Importantes ✔
+El sistema permite a los administradores eliminar cuentas, suspender cuentas con razones y realizar diversas funciones administrativas.
+Las cuentas de usuario pueden asociarse y administrarse.
+El servicio se comunica con servicios externos, especialmente para funcionalidades relacionadas con administración.
+
+# Tecnologías Utilizadas 👩🏻‍💻
+* Lenguaje de programación: Spring-boot
 * Base de datos: MySQL
 * Datos de la base de datos:
-    * service_viaje<br><br>
+  * microservicio_usuario<br><br>
 * Requerimientos y Dependencias:
-    * Maven
-    * Lombok
-    * Spring Web
-    * Spring Data JPA
-    * MySQL Driver
+  * Maven
+  * Lombok
+  * Spring Web
+  * Spring Data JPA
+  * MySQL Driver 
