@@ -2,9 +2,14 @@ package com.usuario.usuarioservice.Service;
 
 
 import com.usuario.usuarioservice.DTO.CuentaDTO;
+import com.usuario.usuarioservice.Model.Cuenta;
+import com.usuario.usuarioservice.Model.CuentasDeUsuario;
+import com.usuario.usuarioservice.Model.Usuario;
 import com.usuario.usuarioservice.Repository.CuentaRepository;
 import com.usuario.usuarioservice.Repository.CuentasDeUsuarioRepository;
 import com.usuario.usuarioservice.Repository.UsuarioRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -12,16 +17,17 @@ import java.util.List;
 
 public class UsuarioService {
     @Autowired
-    private final CuentaRepository cuentaRepository;
+    private final CuentasDeUsuarioRepository cuentasDeUsuarioRepository;
     @Autowired
     private final UsuarioRepository usuarioRepository;
     @Autowired
-    private final CuentasDeUsuarioRepository cuentasDeUsuarioRepository;
-
-    public UsuarioService(CuentaRepository cuentaRepository, UsuarioRepository usuarioRepository, CuentasDeUsuarioRepository cuentasDeUsuarioRepository) {
-        this.cuentaRepository = cuentaRepository;
-        this.usuarioRepository = usuarioRepository;
+    private final CuentaRepository cuentaRepository;
+    @Autowired
+    EntityManager entityManager;
+    public UsuarioService(CuentasDeUsuarioRepository cuentasDeUsuarioRepository, UsuarioRepository usuarioRepository, CuentaRepository cuentaRepository) {
         this.cuentasDeUsuarioRepository = cuentasDeUsuarioRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.cuentaRepository = cuentaRepository;
     }
 
     /**
@@ -33,5 +39,4 @@ public class UsuarioService {
     public List<CuentaDTO> cuentasDelUsuario (int id){
         return cuentasDeUsuarioRepository.cuentasDelUsuarioID(id);
     }
-
 }

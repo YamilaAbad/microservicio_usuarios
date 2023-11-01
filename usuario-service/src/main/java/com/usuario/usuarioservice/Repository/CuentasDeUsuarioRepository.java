@@ -19,5 +19,4 @@ public interface CuentasDeUsuarioRepository extends JpaRepository<CuentasDeUsuar
             "JOIN cu.usuario u " +
             "WHERE u.id = :id")
     List<CuentaDTO> cuentasDelUsuarioID(int id);
-
 }

@@ -11,4 +11,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Usuario findByEmail(String email);
     @Query("SELECT u FROM Usuario u WHERE u.rol = 'admin' AND u.id = :idLog")
     Usuario esAdmin(int idLog);
+
 }

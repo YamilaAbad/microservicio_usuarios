@@ -5,19 +5,21 @@ import com.usuario.usuarioservice.Model.Cuenta;
 import com.usuario.usuarioservice.Model.Usuario;
 import com.usuario.usuarioservice.Repository.CuentaRepository;
 import com.usuario.usuarioservice.Repository.UsuarioRepository;
-import com.usuario.usuarioservice.Service.AdminService;
+import com.usuario.usuarioservice.Service.Service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @ResponseStatus(HttpStatus.OK)
 @RequestMapping("/microservicio_usuario")
-public class AdminController {
+public class ServiceController {
     @Autowired
-    private AdminService adminService;
+    private Service service;
     @Autowired
     CuentaRepository cuentaRepository;
     @Autowired
@@ -30,18 +32,6 @@ public class AdminController {
             return true;
         }
         return false;
-    }
-    /**
-     * anula (borra) una cuenta de usuario que es pasada por parametro
-     * @param idLogg id de la cuenta logueada
-     * @param cuenta cuenta que será borrada
-     */
-    @DeleteMapping("/borrarCuenta/{idLogg}")
-    @Transactional
-    public void borrarCuenta(@PathVariable int idLogg, @RequestBody Cuenta cuenta){
-       if(verificaRol(idLogg)){
-            cuentaRepository.borrarCuenta(cuenta.getId());
-        }
     }
 
     /**
@@ -63,21 +53,29 @@ public class AdminController {
     @Transactional
     public void agregarMonopatin(@PathVariable int idLog, @RequestBody MonopatinDTO monopatin){
         if (verificaRol(idLog)){
-            adminService.agregarMonopatin(monopatin);
+            service.agregarMonopatin(monopatin);
         }
     }
     @PostMapping("/agregarParada/{idLog}")
     @Transactional
     public void agregarParada(@PathVariable int idLog, @RequestBody ParadaDTO parada){
         if (verificaRol(idLog)){
-            adminService.agregarParada(parada);
+            service.agregarParada(parada);
         }
     }
 
     @GetMapping("/monopatinesEstados/{idLog}")
     public ResponseEntity<String> consultaMonopatines(@PathVariable int idLog){
         if (verificaRol(idLog)){
-           return adminService.consultaMonopatines();
+           return service.consultaMonopatines();
+        }
+        return null;
+    }
+
+    @GetMapping("/monopatinesCerca/{id}/{ubicacion}")
+    public ResponseEntity<List<MonopatinDTO>> monopatinesCercanos(@PathVariable int id, @PathVariable String ubicacion) {
+        if (!verificaRol(id)) {
+          return service.monopatinesCercanos(ubicacion);
         }
         return null;
     }
