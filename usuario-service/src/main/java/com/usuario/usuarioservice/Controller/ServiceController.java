@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -78,5 +79,15 @@ public class ServiceController {
           return service.monopatinesCercanos(ubicacion);
         }
         return null;
+    }
+
+    @PutMapping("/actualizacionDeTarifa/{idLog}/{fecha}/{idTarifa}/{valor}")
+    public ResponseEntity<String> modificarTarifaEnFecha(@PathVariable int idLog, @PathVariable String fecha, @PathVariable String idTarifa, @PathVariable String valor){
+        if (verificaRol(idLog)){
+            LocalDate f = LocalDate.parse(fecha);
+            return service.modificarTarifaEnFecha(f,idTarifa,valor);
+        }else {
+            return ResponseEntity.badRequest().body("No es admin.");
+        }
     }
 }

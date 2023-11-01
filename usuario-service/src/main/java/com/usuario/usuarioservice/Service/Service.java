@@ -1,21 +1,24 @@
 package com.usuario.usuarioservice.Service;
 
-import com.usuario.usuarioservice.DTO.CuentaDTO;
 import com.usuario.usuarioservice.DTO.MonopatinDTO;
 import com.usuario.usuarioservice.DTO.ParadaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @org.springframework.stereotype.Service
 public class Service {
     @Value("${url_monopatin}")
     private String url_monopatin;
+    @Value("${url_viaje}")
+    private String url_viaje;
 
     @Autowired
     RestTemplate restTemplate;
@@ -42,4 +45,20 @@ public class Service {
 
         return responseEntity;
     }
+
+    public ResponseEntity<String> modificarTarifaEnFecha(LocalDate fecha, String id, String valor) {
+        LocalDate fechaActual = LocalDate.now();
+        if (fechaActual.isEqual(fecha)) {
+            ResponseEntity<String> response = this.restTemplate.exchange(
+                    this.url_viaje + "/actualizarTarifa/" + id + "/" + valor,
+                    HttpMethod.PUT,
+                    null,
+                    String.class
+            );
+            return response;
+        }
+
+        return ResponseEntity.badRequest().body("La fecha no coincide para modificar la tarifa.");
+    }
+
 }
