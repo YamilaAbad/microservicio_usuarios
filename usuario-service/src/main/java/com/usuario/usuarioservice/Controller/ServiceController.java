@@ -90,4 +90,14 @@ public class ServiceController {
             return ResponseEntity.badRequest().body("No es admin.");
         }
     }
+
+   /* @GetMapping("/monopatinesConViajeEnAnio/idLog/{}/{}")
+    public ResponseEntity<List<MonopatinDTO>> monopatinesConCantViajesEnAnio(@PathVariable int idLog,) {
+        if (verificaRol(idLog)) {
+            return service.monopatinesConCantViajesEnAnio();
+        }
+        return null;
+
+    }
+    */
 }

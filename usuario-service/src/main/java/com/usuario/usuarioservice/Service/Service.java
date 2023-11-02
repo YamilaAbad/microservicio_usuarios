@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -59,6 +58,17 @@ public class Service {
         }
 
         return ResponseEntity.badRequest().body("La fecha no coincide para modificar la tarifa.");
+    }
+
+    public ResponseEntity<List<MonopatinDTO>> monopatinesConCantViajesEnAnio(){
+        ResponseEntity<List<MonopatinDTO>> responseEntity = this.restTemplate.exchange(
+                this.url_monopatin + "/monopatin/cantidadDeViajePorAnio/",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<MonopatinDTO>>() {}
+        );
+
+        return responseEntity;
     }
 
 }
