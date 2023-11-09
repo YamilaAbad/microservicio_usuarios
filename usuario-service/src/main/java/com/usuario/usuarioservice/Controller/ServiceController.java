@@ -29,7 +29,7 @@ public class ServiceController {
 
     private boolean verificaRol(int id){
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
-        if (usuario != null && "admin".equals(usuario.getRol())) {
+        if (usuario != null && "ADMIN".equals(usuario.getRol())) {
             return true;
         }
         return false;

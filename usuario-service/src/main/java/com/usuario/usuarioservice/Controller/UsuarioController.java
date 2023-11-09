@@ -36,27 +36,13 @@ public class UsuarioController {
     }
 
     /**
-     * creo un usuario, no se puede crear un usuario con un correo electronico ya registrado en la BD.
-     * @param usuario
-     */
-    @PostMapping("/crearUsuario")
-    @ResponseStatus(HttpStatus.OK)
-    public void crearUsuario(@RequestBody Usuario usuario){
-        if (usuarioRepository.findByEmail(usuario.getEmail()) == null) {
-            usuarioRepository.save(usuario);
-        } else {
-            throw new RuntimeException("El correo electrónico ya está registrado.");
-        }
-    }
-
-    /**
      * actualizar num telefono
      * @param id
      * @param num
      */
     @PutMapping("/actualizarNum/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void actualizarNum(@PathVariable int id, @RequestBody int num){
+    public void actualizarNum(@PathVariable int id, @RequestBody String num){
         Usuario usuarioActual = usuarioRepository.findById(id).orElse(null);
         if(usuarioActual != null){
             usuarioActual.setNum_de_celular(num);
