@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -28,10 +29,10 @@ public class SecurityConfig {
                         .anyRequest().authenticated() //requiere autenticación para cualquier otra solicitud
                         )
                 .sessionManagement(sessionManager ->
-                        sessionManager
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //configura la política de creación de sesión como sin estado (stateless)
+                        sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //configura la política de creación de sesión como sin estado (stateless)
                 .authenticationProvider(authenticationProvider) //configura el proveedor de autenticación
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) //agrega el filtro JWT antes del filtro de nombre de usuario y contraseña
                 .build(); //construye y devuelve la cadena de filtros de seguridad
+
     }
 }

@@ -4,6 +4,7 @@ import com.usuario.usuarioservice.Model.Usuario;
 import com.usuario.usuarioservice.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,6 +19,7 @@ public class UsuarioController {
      * retorna todos los usuarios
      * @return lista de usuarios
      */
+
     @GetMapping("/usuarios")
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Usuario> getAllUsuarios(){

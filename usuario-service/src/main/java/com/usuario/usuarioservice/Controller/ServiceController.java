@@ -27,13 +27,28 @@ public class ServiceController {
     UsuarioRepository usuarioRepository;
 
 
-    private boolean verificaRol(int id){
+    private boolean isAdmin(int id){
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
         if (usuario != null && "ADMIN".equals(usuario.getRol())) {
             return true;
         }
         return false;
     }
+    private boolean isUser(int id){
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        if (usuario != null && "USER".equals(usuario.getRol())) {
+            return true;
+        }
+        return false;
+    }
+    private boolean isMantenimiento(int id){
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        if (usuario != null && "MANTENIMIENTO".equals(usuario.getRol())) {
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * modifica una cuenta para que aparezca como estado suspendido y agrega un motivo del porque se suspendió la cuenta
@@ -45,7 +60,7 @@ public class ServiceController {
     @PutMapping("/suspenderCuenta/{idLog}/{motivo}")
     @Transactional
     public void suspenderCuenta(@RequestBody Cuenta cuenta, @PathVariable int idLog, @PathVariable String motivo) {
-        if (verificaRol(idLog)) {
+        if (isAdmin(idLog)) {
             cuentaRepository.suspenderCuenta(cuenta.getId(), motivo);
         }
     }
@@ -53,21 +68,21 @@ public class ServiceController {
     @PostMapping("/agregarMonopatin/{idLog}")
     @Transactional
     public void agregarMonopatin(@PathVariable int idLog, @RequestBody MonopatinDTO monopatin){
-        if (verificaRol(idLog)){
+        if (isAdmin(idLog)){
             service.agregarMonopatin(monopatin);
         }
     }
     @PostMapping("/agregarParada/{idLog}")
     @Transactional
     public void agregarParada(@PathVariable int idLog, @RequestBody ParadaDTO parada){
-        if (verificaRol(idLog)){
+        if (isAdmin(idLog)){
             service.agregarParada(parada);
         }
     }
 
     @GetMapping("/monopatinesEstados/{idLog}")
     public ResponseEntity<String> consultaMonopatines(@PathVariable int idLog){
-        if (verificaRol(idLog)){
+        if (isAdmin(idLog)){
            return service.consultaMonopatines();
         }
         return null;
@@ -75,7 +90,7 @@ public class ServiceController {
 
     @GetMapping("/monopatinesCerca/{id}/{ubicacion}")
     public ResponseEntity<List<MonopatinDTO>> monopatinesCercanos(@PathVariable int id, @PathVariable String ubicacion) {
-        if (!verificaRol(id)) {
+        if (isUser(id)) {
           return service.monopatinesCercanos(ubicacion);
         }
         return null;
@@ -83,7 +98,7 @@ public class ServiceController {
 
     @PutMapping("/actualizacionDeTarifa/{idLog}/{fecha}/{idTarifa}/{valor}")
     public ResponseEntity<String> modificarTarifaEnFecha(@PathVariable int idLog, @PathVariable String fecha, @PathVariable String idTarifa, @PathVariable String valor){
-        if (verificaRol(idLog)){
+        if (isAdmin(idLog)){
             LocalDate f = LocalDate.parse(fecha);
             return service.modificarTarifaEnFecha(f,idTarifa,valor);
         }else {
