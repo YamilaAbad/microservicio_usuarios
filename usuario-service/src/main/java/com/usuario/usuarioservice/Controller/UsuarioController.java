@@ -21,6 +21,7 @@ public class UsuarioController {
      */
 
     @GetMapping("/usuarios")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Usuario> getAllUsuarios(){
        return usuarioRepository.findAll();
