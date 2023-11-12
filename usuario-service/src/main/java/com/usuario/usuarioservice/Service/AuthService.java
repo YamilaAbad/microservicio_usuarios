@@ -9,6 +9,8 @@ import com.usuario.usuarioservice.Repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,4 +52,24 @@ public class AuthService {
         return AuthResponse.builder()
                 .token(jwtService.getToken(user)).build();
     }
+
+    public String getToken() {
+        // Obtiene el objeto Authentication del contexto de seguridad
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Verifica si el usuario está autenticado
+        if (authentication != null && authentication.isAuthenticated()) {
+            // El token estará en las credenciales del objeto Authentication
+            Object credentials = authentication.getCredentials();
+            if (credentials instanceof String) {
+                String token = (String) credentials;
+                // Hacer algo con el token (puede ser un JWT u otro tipo de token)
+                return token;
+            }
+        }
+
+        // Manejar el caso en el que el usuario no está autenticado o no se puede obtener el token
+        return "No se pudo obtener el token del usuario logueado.";
+    }
+
 }

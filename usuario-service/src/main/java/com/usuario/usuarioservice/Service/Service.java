@@ -5,6 +5,8 @@ import com.usuario.usuarioservice.DTO.ParadaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -21,17 +23,25 @@ public class Service {
 
     @Autowired
     RestTemplate restTemplate;
+    @Autowired
+    AuthService authService;
+
 
     public void agregarMonopatin(MonopatinDTO monopatin) {
          this.restTemplate.postForObject(this.url_monopatin+"/monopatin/crearMonopatin", monopatin, MonopatinDTO.class);
     }
 
     public void agregarParada(ParadaDTO parada){
+
         this.restTemplate.postForObject(this.url_monopatin+"/parada/crearParada", parada, ParadaDTO.class);
     }
 
     public ResponseEntity<String> consultaMonopatines(){
-       return this.restTemplate.getForEntity(this.url_monopatin+"/monopatin/reporteMonopatinesEstado", String.class);
+        String token = authService.getToken();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization","Bearer "+token);
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        return this.restTemplate.getForEntity(this.url_monopatin+"/monopatin/reporteMonopatinesEstado", String.class,  requestEntity);
     }
 
     public ResponseEntity<List<MonopatinDTO>> monopatinesCercanos(String ubicacion) {

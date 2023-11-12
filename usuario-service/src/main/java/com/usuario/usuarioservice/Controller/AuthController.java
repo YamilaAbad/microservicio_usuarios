@@ -1,15 +1,14 @@
 package com.usuario.usuarioservice.Controller;
 
+import com.usuario.usuarioservice.DTO.UsuarioDTO;
 import com.usuario.usuarioservice.JWT.AuthResponse;
 import com.usuario.usuarioservice.JWT.RegisterRequest;
 import com.usuario.usuarioservice.Service.AuthService;
 import com.usuario.usuarioservice.JWT.LoginRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/microservicio_usuario/auth")
@@ -24,5 +23,10 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request){
         return ResponseEntity.ok(authService.register(request));
+    }
+
+    @GetMapping("/getToken")
+    public String getToken(){
+        return authService.getToken();
     }
 }

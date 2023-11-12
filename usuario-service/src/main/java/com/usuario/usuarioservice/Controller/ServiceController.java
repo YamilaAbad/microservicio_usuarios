@@ -2,11 +2,12 @@ package com.usuario.usuarioservice.Controller;
 import com.usuario.usuarioservice.DTO.MonopatinDTO;
 import com.usuario.usuarioservice.DTO.ParadaDTO;
 import com.usuario.usuarioservice.Model.Cuenta;
-import com.usuario.usuarioservice.Model.Usuario;
 import com.usuario.usuarioservice.Repository.CuentaRepository;
 import com.usuario.usuarioservice.Repository.UsuarioRepository;
 import com.usuario.usuarioservice.Service.Service;
 import jakarta.transaction.Transactional;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class ServiceController {
         cuentaRepository.suspenderCuenta(cuenta.getId(), motivo);
     }
 
-    @PostMapping("/agregarMonopatin/{idLog}")
+    @PostMapping("/agregarMonopatin")
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public void agregarMonopatin(@RequestBody MonopatinDTO monopatin){
