@@ -41,7 +41,12 @@ public class Service {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization","Bearer "+token);
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        return this.restTemplate.getForEntity(this.url_monopatin+"/monopatin/reporteMonopatinesEstado", String.class,  requestEntity);
+        return this.restTemplate.exchange(
+                this.url_monopatin + "/monopatin/reporteMonopatinesEstado",
+                HttpMethod.GET,
+                requestEntity,
+                String.class
+        );
     }
 
     public ResponseEntity<List<MonopatinDTO>> monopatinesCercanos(String ubicacion) {
