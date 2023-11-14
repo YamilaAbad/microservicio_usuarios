@@ -54,22 +54,20 @@ public class AuthService {
     }
 
     public String getToken() {
-        // Obtiene el objeto Authentication del contexto de seguridad
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // Verifica si el usuario está autenticado
         if (authentication != null && authentication.isAuthenticated()) {
-            // El token estará en las credenciales del objeto Authentication
-            Object credentials = authentication.getCredentials();
-            if (credentials instanceof String) {
-                String token = (String) credentials;
-                // Hacer algo con el token (puede ser un JWT u otro tipo de token)
+            //obtiene los detalles del usuario desde el repositorio
+            UserDetails user = usuarioRepository.findByUsername(authentication.getName()).orElseThrow();
+
+            //genera un token JWT para el usuario autenticado
+            String token = jwtService.getToken(user);
+            if (token != null) {
                 return token;
             }
         }
-
-        // Manejar el caso en el que el usuario no está autenticado o no se puede obtener el token
-        return "No se pudo obtener el token del usuario logueado.";
+        return null;
     }
+
+
 
 }

@@ -7,6 +7,7 @@ import com.usuario.usuarioservice.Service.AuthService;
 import com.usuario.usuarioservice.JWT.LoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,12 @@ public class AuthController {
     }
 
     @GetMapping("/getToken")
-    public String getToken(){
-        return authService.getToken();
+    public ResponseEntity<String> getToken(){
+        String token = authService.getToken();
+        if (token != null) {
+            return ResponseEntity.ok(token);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No se pudo obtener el token.");
+        }
     }
 }
