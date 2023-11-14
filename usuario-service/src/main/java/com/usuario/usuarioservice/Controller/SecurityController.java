@@ -39,15 +39,11 @@ public class SecurityController {
 
         // Generar el token JWT para el usuario actual
         String token = jwtService.getToken(userDetails);
-        System.out.println("Token: "+token);
 
         // Configurar el encabezado con el token
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
-        System.out.println("Encabezado "+headers);
-
         try {
-            System.out.println("entre ");
             //realizao la solicitud al microservicio de monopatin
             String response = webClient.get()
                     .uri(uri)
