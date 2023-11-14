@@ -37,7 +37,9 @@ public class Service {
     }
 
     public ResponseEntity<String> consultaMonopatines() {
-        return securityController.getSomeResource("/monopatin/reporteMonopatinesEstado");
+        String uri = "/monopatin/reporteMonopatinesEstado";
+        ResponseEntity<String> responseEntity = securityController.getSomeResource(uri);
+        return responseEntity;
     }
 
     public ResponseEntity<List<MonopatinDTO>> monopatinesCercanos(String ubicacion) {
