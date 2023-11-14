@@ -1,5 +1,7 @@
 package com.usuario.usuarioservice.Service;
 
+import com.usuario.usuarioservice.Config.SecurityConfig;
+import com.usuario.usuarioservice.Controller.SecurityController;
 import com.usuario.usuarioservice.DTO.MonopatinDTO;
 import com.usuario.usuarioservice.DTO.ParadaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
@@ -25,6 +28,8 @@ public class Service {
     RestTemplate restTemplate;
     @Autowired
     AuthService authService;
+    @Autowired
+    SecurityController securityController;
 
 
     public void agregarMonopatin(MonopatinDTO monopatin) {
@@ -36,12 +41,8 @@ public class Service {
         this.restTemplate.postForObject(this.url_monopatin+"/parada/crearParada", parada, ParadaDTO.class);
     }
 
-    public ResponseEntity<String> consultaMonopatines(){
-        String token = authService.getToken();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization","Bearer "+token);
-        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        return this.restTemplate.getForEntity(this.url_monopatin+"/monopatin/reporteMonopatinesEstado", String.class,  requestEntity);
+    public ResponseEntity<String> consultaMonopatines() {
+        return securityController.getSomeResource("/monopatin/reporteMonopatinesEstado");
     }
 
     public ResponseEntity<List<MonopatinDTO>> monopatinesCercanos(String ubicacion) {
