@@ -1,4 +1,5 @@
 package com.usuario.usuarioservice.Service;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.usuario.usuarioservice.Controller.SecurityController;
 import com.usuario.usuarioservice.DTO.MonopatinDTO;
 import com.usuario.usuarioservice.DTO.ParadaDTO;
@@ -26,10 +27,21 @@ public class Service {
     @Autowired
     SecurityController securityController;
 
-
     public void agregarMonopatin(MonopatinDTO monopatin) {
+        String uri = "/monopatin/crearMonopatin";
+        ObjectMapper mapper = new ObjectMapper();
+        String requestBody = "";
+        try {
+            requestBody = mapper.writeValueAsString(monopatin); // esto es para convertir un MonopatinDTO a un JSON válido
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ResponseEntity<String> responseEntity = securityController.getSomeResourcePost(uri, requestBody);
+        }
+    /*
+    /*public void agregarMonopatin(MonopatinDTO monopatin) {
          this.restTemplate.postForObject(this.url_monopatin+"/monopatin/crearMonopatin", monopatin, MonopatinDTO.class);
-    }
+    }*/
 
     public void agregarParada(ParadaDTO parada){
 
@@ -38,7 +50,7 @@ public class Service {
 
     public ResponseEntity<String> consultaMonopatines() {
         String uri = "/monopatin/reporteMonopatinesEstado";
-        ResponseEntity<String> responseEntity = securityController.getSomeResource(uri);
+        ResponseEntity<String> responseEntity = securityController.getSomeResourceGet(uri);
         return responseEntity;
     }
 
