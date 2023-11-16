@@ -9,6 +9,7 @@ import com.usuario.usuarioservice.Repository.CuentasDeUsuarioRepository;
 import com.usuario.usuarioservice.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +22,7 @@ public class CuentasDeUsuarioController {
     CuentasDeUsuarioRepository cuentasDeUsuarioRepository;
     @Autowired
     CuentaRepository cuentaRepository;
-    @Autowired
-    UsuarioRepository usuarioRepository;
+
 
     /**
      * enlazo el usuario que se encuentra logueado en la plataforma con la cuenta que coincida con los datos que
@@ -32,6 +32,7 @@ public class CuentasDeUsuarioController {
      * @param pass
      */
     @PostMapping("/enlazarCuenta/{user}/{pass}")
+    @PreAuthorize("hasAuthority('USER')")
     @ResponseStatus(HttpStatus.OK)
     public void enlazarCuenta(@RequestBody Usuario usuario, @PathVariable String user, @PathVariable String pass){
 
@@ -50,6 +51,7 @@ public class CuentasDeUsuarioController {
      * @return
      */
     @GetMapping("/cuentasAsociadasAusuario/{id}")
+    @PreAuthorize("hasAuthority('USER')")
     @ResponseStatus(HttpStatus.OK)
     public List<CuentaDTO> cuentasDelUsuario(@PathVariable int id){
        return cuentasDeUsuarioRepository.cuentasDelUsuarioID(id);

@@ -27,6 +27,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authRequest ->
                 authRequest
                         .requestMatchers("/microservicio_usuario/auth/**").permitAll() //permite el acceso a rutas específicas sin autenticación (solo login y registro)
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
                         .anyRequest().authenticated() //requiere autenticación para cualquier otra solicitud
                         )
                 .sessionManagement(sessionManager ->
@@ -36,4 +37,12 @@ public class SecurityConfig {
                 .build(); //construye y devuelve la cadena de filtros de seguridad
 
     }
+
+    private static final String[] AUTH_WHITELIST = {
+            "/api/v1/auth/**",
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
 }

@@ -6,8 +6,6 @@ import com.usuario.usuarioservice.Repository.CuentaRepository;
 import com.usuario.usuarioservice.Repository.UsuarioRepository;
 import com.usuario.usuarioservice.Service.Service;
 import jakarta.transaction.Transactional;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @ResponseStatus(HttpStatus.OK)
@@ -62,8 +59,25 @@ public class ServiceController {
 
     @GetMapping("/monopatinesCerca/{ubicacion}")
     @PreAuthorize("hasAuthority('USER')")
-    public ResponseEntity<List<MonopatinDTO>> monopatinesCercanos(@PathVariable String ubicacion) {
+    public ResponseEntity<String> monopatinesCercanos(@PathVariable String ubicacion) {
           return service.monopatinesCercanos(ubicacion);
+    }
+
+    @GetMapping("/reporteMonopatinesPorKM/{km}")
+    @PreAuthorize("hasAuthority('MANTENIMIENTO')")
+    public ResponseEntity<String> reportePorKM(@PathVariable int km){
+        return service.reportePorKM(km);
+    }
+
+    @GetMapping("/monopatines")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<String> listaDeMonopatines(){
+        return service.listaMonopatines();
+    }
+    @GetMapping("/monopatin/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<String> infoMonopatin(@PathVariable String id){
+        return service.infoMonopatin(id);
     }
 
     @PutMapping("/actualizacionDeTarifa/{fecha}/{idTarifa}/{valor}")
@@ -72,6 +86,54 @@ public class ServiceController {
         LocalDate f = LocalDate.parse(fecha);
         return service.modificarTarifaEnFecha(f,idTarifa,valor);
     }
+
+    @DeleteMapping("/eliminarMonopatin/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void eliminarMonopatin(@PathVariable String id){
+        service.eliminarMonopatin(id);
+    }
+
+    @GetMapping("/paradas")
+    public ResponseEntity<String> listaDeParadas(){
+        return service.listaParadas();
+    }
+
+    @GetMapping("/parada/{id}")
+    public ResponseEntity<String> infoParada(@PathVariable String id){
+        return service.infoParada(id);
+    }
+
+    @GetMapping("/monopatinesEnParada/{ubicacion}")
+    @PreAuthorize("hasAuthority('USER')")
+    public ResponseEntity<String> monopatinEnUbicacionParada(@PathVariable String ubicacion){
+        return service.monopatinEnUbicacionParada(ubicacion);
+    }
+    @GetMapping("/paradasEnUbicacion/{ubicacion}")
+    public ResponseEntity<String> paradasEnLaUbicacion(@PathVariable String ubicacion){
+        return service.paradasEnUbicacion(ubicacion);
+    }
+
+    @PutMapping("/actualizarParada/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void actualizarParada(@PathVariable String id, @RequestBody ParadaDTO paradaDTO){
+        service.actualizarParada(id,paradaDTO);
+    }
+
+    @PutMapping("/agregarMonopatin/{ubicacion}")
+    public void agregarMonopatinAparada(@PathVariable String ubicacion, @RequestBody MonopatinDTO monopatin){
+        service.agregarMonopatinAparada(ubicacion,monopatin);
+    }
+
+    @DeleteMapping("/eliminarParada/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String eliminarParada(@PathVariable String id){
+        return service.eliminarParada(id);
+    }
+   /** @PostMapping("/iniciarViaje")
+    @PreAuthorize("hasAuthority('USER')")
+    public void iniciarViaje (){
+        service.iniciarViaje();
+    } */
 
    /* @GetMapping("/monopatinesConViajeEnAnio/idLog/{}/{}")
     public ResponseEntity<List<MonopatinDTO>> monopatinesConCantViajesEnAnio(@PathVariable int idLog,) {

@@ -1,9 +1,12 @@
 package com.usuario.usuarioservice.Controller;
 
+import com.usuario.usuarioservice.DTO.CuentaDTO;
 import com.usuario.usuarioservice.Model.Cuenta;
 import com.usuario.usuarioservice.Repository.CuentaRepository;
+import com.usuario.usuarioservice.Service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,12 +16,15 @@ import java.util.List;
 public class CuentaController {
     @Autowired
     private CuentaRepository cuentaRepository;
+    @Autowired
+    private UsuarioService usuarioService;
 
     /**
      * retorna todas las cuentas
      * @return lista de cuentas
      */
     @GetMapping("/cuentas")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public List<Cuenta> getAllCuentas(){
         return cuentaRepository.findAll();
@@ -40,14 +46,16 @@ public class CuentaController {
      * @param cuenta
      */
     @PostMapping("/crearCuenta")
+    @PreAuthorize("hasAuthority('USER')")
     @ResponseStatus(HttpStatus.OK)
-    public void crearCuenta(@RequestBody Cuenta cuenta){
+    public void crearCuenta(@RequestBody CuentaDTO cuenta){
         if (cuentaRepository.getByUser(cuenta.getUser()) == null){
-            cuentaRepository.save(cuenta);
+            usuarioService.crearCuenta(cuenta);
         }
     }
 
     @PutMapping("/cargarSaldo/{s}")
+    @PreAuthorize("hasAuthority('USER')")
     @ResponseStatus(HttpStatus.OK)
     public void cargarSaldo(@RequestBody Cuenta cuenta, @PathVariable float s){
         cuentaRepository.cargarSaldo(cuenta.getId(), s);

@@ -44,7 +44,7 @@ public class AuthService {
                 .apellido(request.getApellido())
                 .num_de_celular(request.getNum_de_celular())
                 .email(request.getEmail())
-                .rol(Rol.ADMIN)  //por defecto es un usuario normal
+                .rol(Rol.MANTENIMIENTO)  //por defecto es un usuario normal
                 .build();
 
         usuarioRepository.save(user);   //salva al usuario

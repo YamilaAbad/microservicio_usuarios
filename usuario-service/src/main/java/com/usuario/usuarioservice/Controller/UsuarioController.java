@@ -44,6 +44,7 @@ public class UsuarioController {
      * @param num
      */
     @PutMapping("/actualizarNum/{id}")
+    @PreAuthorize("hasAuthority('USER')")
     @ResponseStatus(HttpStatus.OK)
     public void actualizarNum(@PathVariable int id, @RequestBody String num){
         Usuario usuarioActual = usuarioRepository.findById(id).orElse(null);
@@ -59,6 +60,7 @@ public class UsuarioController {
      * @param email
      */
     @PutMapping("/actualizarEmail/{id}")
+    @PreAuthorize("hasAuthority('USER')")
     @ResponseStatus(HttpStatus.OK)
     public void actualizarEmail(@PathVariable int id, @RequestBody String email){
         Usuario usuarioActual = usuarioRepository.findById(id).orElse(null);
@@ -69,13 +71,18 @@ public class UsuarioController {
     }
 
     /**
-     * borra un usuario
+     * da de baja un usuario
      * @param id
      */
-    @DeleteMapping("/eliminarUsuario/{id}")
+    @PutMapping("/eliminarUsuario/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public void eliminarUsuario(@PathVariable int id){
-        usuarioRepository.delete(usuarioRepository.findById(id).orElse(null));
+        Usuario usuarioActual = usuarioRepository.findById(id).orElse(null);
+        if(usuarioActual != null){
+            usuarioActual.setEstado(false);
+            usuarioRepository.save(usuarioActual);
+        }
     }
 
 
