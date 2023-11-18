@@ -174,6 +174,8 @@ public class Service {
     public ResponseEntity<String> obtenerReporteMonopatinesPorKm( int kmParaMantenimiento) {
         String uri = "/monopatin/reportePorKilometro/" + kmParaMantenimiento;
         ResponseEntity<String> response = securityController.getSomeResourceGetMonopatin(uri);
+        return response;
+    }
     public ResponseEntity<String> facturacionFiltro(int anio, int mesInicio, int mesFin) {
         String uri="/facturacion/"+"/"+anio+"/"+mesInicio+"/"+mesFin;
         ResponseEntity<String> response = securityController.getSomeResourceGetViaje(uri);
