@@ -152,7 +152,6 @@ public class Service {
         return response.getBody();
     }
 
-<<<<<<< HEAD
     public void iniciarViaje(int id, ViajeDTO viajeDTO) {
         String uri="/monopatin/iniciarViaje/"+id;
         ObjectMapper mapper = new ObjectMapper();
@@ -164,12 +163,6 @@ public class Service {
         }
         ResponseEntity<String>responseEntity = securityController.getSomeResourcePostViaje(uri, requestBody) ;
 
-=======
-    public void iniciarViaje(int id) {
-        String uri="/monopatin/iniciarViaje/"+id;
-        ResponseEntity<String>response = securityController.getSomeResourceGetMonopatin(uri);
-        response.getBody();
->>>>>>> c4db7891f6db3e57bbef2f1d2ed67828b1c8f905
     }
 
     public ResponseEntity<String> obtenerMonopatinConMasViajesEnAnio(int x, int anio) {
@@ -178,15 +171,12 @@ public class Service {
         return response;
     }
 
-<<<<<<< HEAD
     public ResponseEntity<String> obtenerReporteMonopatinesPorKm( int kmParaMantenimiento) {
         String uri = "/monopatin/reportePorKilometro/" + kmParaMantenimiento;
         ResponseEntity<String> response = securityController.getSomeResourceGetMonopatin(uri);
-=======
     public ResponseEntity<String> facturacionFiltro(int anio, int mesInicio, int mesFin) {
         String uri="/facturacion/"+"/"+anio+"/"+mesInicio+"/"+mesFin;
         ResponseEntity<String> response = securityController.getSomeResourceGetViaje(uri);
->>>>>>> c4db7891f6db3e57bbef2f1d2ed67828b1c8f905
         return response;
     }
 }
