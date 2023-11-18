@@ -151,14 +151,20 @@ public class Service {
     }
 
     public void iniciarViaje(int id) {
-        String uri="/iniciarViaje/"+id;
+        String uri="/monopatin/iniciarViaje/"+id;
         ResponseEntity<String>response = securityController.getSomeResourceGetMonopatin(uri);
         response.getBody();
     }
 
     public ResponseEntity<String> obtenerMonopatinConMasViajesEnAnio(int x, int anio) {
-        String uri="/monopatinesConMasDeXViajesEnAnio/"+x+"/"+"/"+anio;
+        String uri="/monopatin/monopatinesConMasDeXViajesEnAnio/"+x+"/"+"/"+anio;
         ResponseEntity<String>response = securityController.getSomeResourceGetMonopatin(uri);
+        return response;
+    }
+
+    public ResponseEntity<String> facturacionFiltro(int anio, int mesInicio, int mesFin) {
+        String uri="/facturacion/"+"/"+anio+"/"+mesInicio+"/"+mesFin;
+        ResponseEntity<String> response = securityController.getSomeResourceGetViaje(uri);
         return response;
     }
 }
