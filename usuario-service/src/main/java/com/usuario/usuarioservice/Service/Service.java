@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.usuario.usuarioservice.Controller.SecurityController;
 import com.usuario.usuarioservice.DTO.MonopatinDTO;
 import com.usuario.usuarioservice.DTO.ParadaDTO;
+import com.usuario.usuarioservice.DTO.ViajeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 import java.time.LocalDate;
@@ -150,15 +152,28 @@ public class Service {
         return response.getBody();
     }
 
-    public void iniciarViaje(int id) {
-        String uri="/iniciarViaje/"+id;
-        ResponseEntity<String>response = securityController.getSomeResourceGetMonopatin(uri);
-        response.getBody();
+    public void iniciarViaje(int id, ViajeDTO viajeDTO) {
+        String uri="/monopatin/iniciarViaje/"+id;
+        ObjectMapper mapper = new ObjectMapper();
+        String requestBody = "";
+        try {
+            requestBody = mapper.writeValueAsString(viajeDTO); // esto es para convertir un MonopatinDTO a un JSON válido
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ResponseEntity<String>responseEntity = securityController.getSomeResourcePostViaje(uri, requestBody) ;
+
     }
 
     public ResponseEntity<String> obtenerMonopatinConMasViajesEnAnio(int x, int anio) {
         String uri="/monopatinesConMasDeXViajesEnAnio/"+x+"/"+"/"+anio;
         ResponseEntity<String>response = securityController.getSomeResourceGetMonopatin(uri);
+        return response;
+    }
+
+    public ResponseEntity<String> obtenerReporteMonopatinesPorKm( int kmParaMantenimiento) {
+        String uri = "/monopatin/reportePorKilometro/" + kmParaMantenimiento;
+        ResponseEntity<String> response = securityController.getSomeResourceGetMonopatin(uri);
         return response;
     }
 }

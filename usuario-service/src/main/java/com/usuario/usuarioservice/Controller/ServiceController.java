@@ -1,6 +1,7 @@
 package com.usuario.usuarioservice.Controller;
 import com.usuario.usuarioservice.DTO.MonopatinDTO;
 import com.usuario.usuarioservice.DTO.ParadaDTO;
+import com.usuario.usuarioservice.DTO.ViajeDTO;
 import com.usuario.usuarioservice.Model.Cuenta;
 import com.usuario.usuarioservice.Repository.CuentaRepository;
 import com.usuario.usuarioservice.Repository.UsuarioRepository;
@@ -132,13 +133,18 @@ public class ServiceController {
 
    @PostMapping("/iniciarViaje/{id}")
    @PreAuthorize("hasAuthority('USER')")
-   public void iniciarViaje(@PathVariable int id){
-       service.iniciarViaje(id);
+   public void iniciarViaje(@PathVariable int id, @RequestBody ViajeDTO viajeDTO){
+       service.iniciarViaje(id, viajeDTO);
    }
    @GetMapping("/monopatinesConMasDeXViajesEnAnio/{x}/{anio}")
    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String>obtenerMonopatinConMasViajesEnAnio(@PathVariable int x, @PathVariable int anio){
         return service.obtenerMonopatinConMasViajesEnAnio(x, anio);
    }
+    @GetMapping("/reportePorKilometro/{kmParaMantenimiento}")
+    @PreAuthorize("hasAuthority('MANTENIMIENTO')")
+    public ResponseEntity<String> obtenerReporteMonopatinesPorKm(@PathVariable int kmParaMantenimiento) {
+        return service.obtenerReporteMonopatinesPorKm( kmParaMantenimiento);
+    }
 
 }
