@@ -147,4 +147,10 @@ public class ServiceController {
         return service.obtenerReporteMonopatinesPorKm( kmParaMantenimiento);
     }
 
+    @GetMapping("/facturacion/{anio}/{mesInicio}/{mesFin}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<String> facturacionFiltro(@PathVariable int anio, @PathVariable int mesInicio, @PathVariable int mesFin){
+        return service.facturacionFiltro(anio,mesInicio,mesFin);
+    }
+
 }
