@@ -18,8 +18,8 @@ target/
 *.iws
 *.iml
 *.ipr
-*.data
 ### NetBeans ###
+/data
 /nbproject/private/
 /nbbuild/
 /dist/
