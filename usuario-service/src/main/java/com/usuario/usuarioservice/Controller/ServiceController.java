@@ -129,19 +129,16 @@ public class ServiceController {
     public String eliminarParada(@PathVariable String id){
         return service.eliminarParada(id);
     }
-   /** @PostMapping("/iniciarViaje")
-    @PreAuthorize("hasAuthority('USER')")
-    public void iniciarViaje (){
-        service.iniciarViaje();
-    } */
 
-   /* @GetMapping("/monopatinesConViajeEnAnio/idLog/{}/{}")
-    public ResponseEntity<List<MonopatinDTO>> monopatinesConCantViajesEnAnio(@PathVariable int idLog,) {
-        if (verificaRol(idLog)) {
-            return service.monopatinesConCantViajesEnAnio();
-        }
-        return null;
+   @PostMapping("/iniciarViaje/{id}")
+   @PreAuthorize("hasAuthority('USER')")
+   public void iniciarViaje(@PathVariable int id){
+       service.iniciarViaje(id);
+   }
+   @GetMapping("/monopatinesConMasDeXViajesEnAnio/{x}/{anio}")
+   @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<String>obtenerMonopatinConMasViajesEnAnio(@PathVariable int x, @PathVariable int anio){
+        return service.obtenerMonopatinConMasViajesEnAnio(x, anio);
+   }
 
-    }
-    */
 }

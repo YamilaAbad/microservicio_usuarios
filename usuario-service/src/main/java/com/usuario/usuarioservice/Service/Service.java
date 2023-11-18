@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 
 
 import java.time.LocalDate;
-import java.util.List;
 
 @org.springframework.stereotype.Service
 public class Service {
@@ -151,9 +150,15 @@ public class Service {
         return response.getBody();
     }
 
+    public void iniciarViaje(int id) {
+        String uri="/iniciarViaje/"+id;
+        ResponseEntity<String>response = securityController.getSomeResourceGetMonopatin(uri);
+        response.getBody();
+    }
 
-    /** public void iniciarViaje() {
-        String uri = "/iniciarViaje";
-        ResponseEntity responseEntity = securityController.getSomeResourcePostViaje(uri);
-    }*/
+    public ResponseEntity<String> obtenerMonopatinConMasViajesEnAnio(int x, int anio) {
+        String uri="/monopatinesConMasDeXViajesEnAnio/"+x+"/"+"/"+anio;
+        ResponseEntity<String>response = securityController.getSomeResourceGetMonopatin(uri);
+        return response;
+    }
 }
