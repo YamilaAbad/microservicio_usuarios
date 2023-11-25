@@ -61,7 +61,7 @@ public class SecurityController {
         // Configurar el encabezado con el token
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
-        if(method.equals(HttpMethod.POST)){
+        if(method.equals(HttpMethod.POST) || method.equals(HttpMethod.PUT)){
             headers.setContentType(MediaType.APPLICATION_JSON);
         }
         try{
@@ -70,12 +70,21 @@ public class SecurityController {
                 request = webClientMonopatin.get()
                         .uri(uri)
                         .headers(h->h.setBearerAuth(token));
-            }else {
+            }else if (method.equals(HttpMethod.POST)){
                 request = webClientMonopatin.post()
                         .uri(uri)
                         .headers(h->h.setBearerAuth(token))
                         .contentType(MediaType.APPLICATION_JSON) // Establecer explícitamente el tipo de contenido a 'application/json'
                         .bodyValue(requestBody);
+            }else if (method.equals(HttpMethod.PUT)) {
+                request = webClientMonopatin.put()
+                        .uri(uri)
+                        .headers(h -> h.setBearerAuth(token))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(requestBody);
+            } else {
+                // Manejar otros métodos HTTP según sea necesario
+                return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("Método no permitido");
             }
             //realizao la solicitud al microservicio de monopatin
             String response = request.retrieve()
@@ -105,8 +114,8 @@ public class SecurityController {
         return getSomeResourceViaje(uri, HttpMethod.PUT, requestBody);
     }
 
-    private ResponseEntity<String> getSomeResourceViaje(String uri, HttpMethod method, String requestBody){
-        //obtener el token para el usuario actual
+    private ResponseEntity<String> getSomeResourceViaje(String uri, HttpMethod method, String requestBody) {
+        // Obtener el token para el usuario actual
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Verificar si el usuario está autenticado
@@ -119,32 +128,46 @@ public class SecurityController {
 
         // Generar el token JWT para el usuario actual
         String token = jwtService.getToken(userDetails);
+
         // Configurar el encabezado con el token
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
-        if(method.equals(HttpMethod.POST)){
+
+        if (method.equals(HttpMethod.POST) || method.equals(HttpMethod.PUT)) {
             headers.setContentType(MediaType.APPLICATION_JSON);
         }
-        try{
+
+        try {
             WebClient.RequestHeadersSpec<?> request;
-            if(method.equals(HttpMethod.GET)){
+
+            if (method.equals(HttpMethod.GET)) {
                 request = webClientViaje.get()
                         .uri(uri)
-                        .headers(h->h.setBearerAuth(token));
-            }else {
+                        .headers(h -> h.setBearerAuth(token));
+            } else if (method.equals(HttpMethod.POST)) {
                 request = webClientViaje.post()
                         .uri(uri)
-                        .headers(h->h.setBearerAuth(token))
-                        .contentType(MediaType.APPLICATION_JSON) // Establecer explícitamente el tipo de contenido a 'application/json'
+                        .headers(h -> h.setBearerAuth(token))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(requestBody);
+            } else if (method.equals(HttpMethod.PUT)) {
+                request = webClientViaje.put()
+                        .uri(uri)
+                        .headers(h -> h.setBearerAuth(token))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(requestBody);
+            } else {
+                // Manejar otros métodos HTTP según sea necesario
+                return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("Método no permitido");
             }
-            //realizao la solicitud al microservicio de monopatin
+
+            // Realizar la solicitud al microservicio de monopatín
             String response = request.retrieve()
                     .bodyToMono(String.class)
                     .block();
 
             return ResponseEntity.ok(response);
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al hacer la solicitud: " + e.getMessage());
         }
     }
